@@ -1,0 +1,30 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "An e-commerce web application API",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "env-cmd -f ./config/.env nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "Dipendra Kumar Bhatt",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jade": "^1.11.0",
+    "jsonwebtoken": "^9.0.0",
+    "kafkajs": "^2.2.4",
+    "mongoose": "^6.0.5",
+    "morgan": "^1.10.0",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.12"
+  }
+}
