@@ -6,7 +6,9 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var cartRouter = require('./routes/cartRoute')
+var cartRouter = require('./routes/cartRoute');
+const consumer = require('../gateway/kafka/consumer');
+require("./db/cartDB")
 
 var app = express();
 
@@ -39,5 +41,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(4002, console.log('Cart Service started!'))
+
+
+const PORT = process.env.CART_SERVICE_PORT || 4002
+app.listen(PORT, console.log('Cart Service started!', PORT))
 module.exports = app;

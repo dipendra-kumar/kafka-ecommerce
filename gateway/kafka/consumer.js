@@ -1,28 +1,12 @@
-const { Kafka } = require("kafkajs")
-// the client ID lets kafka know who's producing the messages
-const clientId = "my-app"
-// we can define the list of brokers in the cluster
-const brokers = ["localhost:9092"]
-// this is the topic to which we want to write messages
-const topic = "message-log"
+const {Kafka}  = require("kafkajs")
 
-// initialize a new kafka client and initialize a producer from it
-const kafka = new Kafka({ clientId, brokers })
+const kafka = new Kafka({
+  clientId: 'my-producer',
+  brokers: ['localhost:9092',],
+});
 
-const consumer = kafka.consumer({ groupId: clientId })
-consumer.connect().then(console.log("consumer connected!"))
+const consumer = kafka.consumer({ groupId: 'test-group' })
 
-// const consume = async () => {
-//     // first, we wait for the client to connect and subscribe to the given topic
+consumer.connect().then(console.log('consumer connected!'))
 
-//     await consumer.subscribe({ topic })
-//     await consumer.run({
-//         // this function is called every time the consumer gets a new message
-//         eachMessage: ({ message }) => {
-//             // here, we just log the message to the standard output
-//             console.log(`received message: ${message.value}`)
-//         },
-//     })
-// }
-
-module.exports = consumer
+module.exports = consumer;

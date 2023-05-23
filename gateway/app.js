@@ -3,13 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var dotenv = require("dotenv")
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productRouter = require("./routes/productRoute")
-require("./db/productDb")
-var app = express();
+let dotenv = require('dotenv');
+let cors = require('cors');
+let proxy = require('express-http-proxy');
 dotenv.config();
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,10 +20,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
+app.use(express.json());
 
-app.use(productRouter)
 
-// catch 404 and forward to error handler
+app.use('/orders', proxy('http://localhost:4003'))
+app.use('/user', proxy("http://localhost:4002"));
+app.use('/', proxy("http://localhost:4001"));
+
+
+// catch 404 and forward to error handler`
+
 app.use(function (req, res, next) {
   next(createError(404));
 });
@@ -39,8 +45,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
-const port = process.env.PRODUCT_SERVICE_PORT;
-app.listen(port, console.log("Product Service started and listening at: ", port))
+let port = process.env.PORT;
+app.listen(port, () => {
+  console.log(`App is listen to port ${port} for gateway`);
+})
 module.exports = app;

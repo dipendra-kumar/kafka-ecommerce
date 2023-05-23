@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const { addItemsToCart, getCartItems, deleteCartItem } = require("../controllers/cart")
-const auth = require("../middleware/auth")
+const { getCartItems, deleteCartItem } = require("../controller/cart")
+const auth = require("../middlewares/auth")
 
-router.post("/addToCart", auth, addItemsToCart)
+// router.post("/addToCart", auth, addItemsToCart)
 router.get("/getCartItems", auth, getCartItems)
 router.delete("/deleteCartItem/", auth, deleteCartItem);
 
