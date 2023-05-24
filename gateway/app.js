@@ -45,7 +45,9 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 let port = process.env.PORT;
+
 app.listen(port, () => {
   console.log(`App is listen to port ${port} for gateway`);
 })

@@ -9,6 +9,8 @@ var usersRouter = require('./routes/users');
 var cartRouter = require('./routes/cartRoute');
 const consumer = require('../gateway/kafka/consumer');
 require("./db/cartDB")
+const getProducts = require("./config/kafkaConsume")
+getProducts();
 
 var app = express();
 

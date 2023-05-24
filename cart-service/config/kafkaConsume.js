@@ -1,11 +1,17 @@
-const consumer = require("../../gateway/kafka/consumer")
+const consumer = require("../../gateway/kafka/consumer");
+const { addItemsToCart } = require("../controller/cart");
 
-const authService = async () => {
+
+const getProducts = async () => {
     try {
-        await consumer.subscribe({ topic: "productData" })
+        await consumer.subscribe({ topic: "tokenData" })
+        console.log('Consumer subscribed!')
         await consumer.run({
-            eachMessage: async ({ message }) => {
+
+            eachMessage: ({ message }) => {
                 console.log(JSON.parse(message.value))
+                const productData = JSON.parse(message.value)
+                addItemsToCart(productData)
             },
         })
 
@@ -13,4 +19,5 @@ const authService = async () => {
         console.log(error)
     }
 }
-authService();
+
+module.exports = getProducts;
