@@ -8,19 +8,16 @@ const kafka = new Kafka({
 const consumeMessage = async (groupName, topicName) => {
   const consumer = kafka.consumer({ groupId: groupName, fromBeginning: true })
   consumer.connect().then(console.log('consumer connected!'))
-  var msg = function (value) {
-    return value;
-  };
   await consumer.subscribe({ topic: topicName })
+
+  var msg;
   await consumer.run({
     eachMessage: async ({ message }) => {
-      msg(JSON.parse(message.value))
-      console.log('msg received')
+      msg = JSON.parse(message.value)
     },
   })
-  console.log(msg, "this is message")
-  return msg;
 
+  return msg;
 }
 
 
