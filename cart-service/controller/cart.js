@@ -17,56 +17,55 @@ const getCartItems = async (req, res) => {
     }
 }
 
-
-
 const addItemsToCart = async (cartData) => {
 
-    const owner = cartData.owner;
-    const { _id, item, quantity } = cartData;
-    try {
-        const cart = await Cart.findOne({ owner });
-        const price = item.productPrice;
-        const name = item.productName;
-        //If cart already exists for user,
-        if (cart) {
-            const itemIndex = cart.items.findIndex((item) => item.itemId == _id);
-            //check if product exists or not
+    console.log(cartData)
 
-            if (itemIndex > -1) {
-                let product = cart.items[itemIndex];
-                product.quantity = quantity;
-                product.image = item.productImage;
-                cart.bill = cart.items.reduce((acc, curr) => {
-                    return acc + curr.quantity * curr.price;
-                }, 0)
+    // const { _id, item, quantity } = cartData;
+    // try {
+    //     const cart = await Cart.findOne({ owner });
+    //     const price = item.productPrice;
+    //     const name = item.productName;
+    //     //If cart already exists for user,
+    //     if (cart) {
+    //         const itemIndex = cart.items.findIndex((item) => item.itemId == _id);
+    //         //check if product exists or not
 
-                cart.items[itemIndex] = product;
-                console.log(cart)
-                await cart.save();
-                res.status(200).send(cart);
+    //         if (itemIndex > -1) {
+    //             let product = cart.items[itemIndex];
+    //             product.quantity = quantity;
+    //             product.image = item.productImage;
+    //             cart.bill = cart.items.reduce((acc, curr) => {
+    //                 return acc + curr.quantity * curr.price;
+    //             }, 0)
 
-            } else {
-                cart.items.push({ itemId, name, quantity, price, image: item.productImage });
-                cart.bill = cart.items.reduce((acc, curr) => {
-                    return acc + curr.quantity * curr.price;
-                }, 0)
+    //             cart.items[itemIndex] = product;
+    //             console.log(cart)
+    //             await cart.save();
+    //             res.status(200).send(cart);
 
-                await cart.save();
-                res.status(200).send(cart);
-            }
-        } else {
-            //no cart exists, create one
-            const newCart = await Cart.create({
-                owner,
-                items: [{ itemId, name, quantity, price, image: item.productImage }],
-                bill: quantity * price,
-            });
-            return res.status(201).send(newCart);
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).send("Something went wrong");
-    }
+    //         } else {
+    //             cart.items.push({ itemId, name, quantity, price, image: item.productImage });
+    //             cart.bill = cart.items.reduce((acc, curr) => {
+    //                 return acc + curr.quantity * curr.price;
+    //             }, 0)
+
+    //             await cart.save();
+    //             res.status(200).send(cart);
+    //         }
+    //     } else {
+    //         //no cart exists, create one
+    //         const newCart = await Cart.create({
+    //             owner,
+    //             items: [{ itemId, name, quantity, price, image: item.productImage }],
+    //             bill: quantity * price,
+    //         });
+    //         return res.status(201).send(newCart);
+    //     }
+    // } catch (error) {
+    //     console.log(error);
+    //     res.status(500).send("Something went wrong");
+    // }
 }
 
 

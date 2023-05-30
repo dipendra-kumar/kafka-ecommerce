@@ -9,7 +9,6 @@ const getProducts = async () => {
         await consumer.run({
 
             eachMessage: ({ message }) => {
-                console.log(JSON.parse(message.value))
                 const productData = JSON.parse(message.value)
                 addItemsToCart(productData)
             },
@@ -20,4 +19,5 @@ const getProducts = async () => {
     }
 }
 
+getProducts();
 module.exports = getProducts;
