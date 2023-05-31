@@ -2,7 +2,7 @@ const { Kafka, Partitioners } = require('kafkajs');
 
 const kafka = new Kafka({
   clientId: 'my-producer',
-  brokers: ['localhost:9092',],
+  brokers: ['10.8.10.102:9092',],
 });
 
 const producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner })
@@ -18,7 +18,6 @@ const sendMessage = async (topic, message) => {
       },
     ],
   });
-  console.log('message sent.')
 }
 
 module.exports = sendMessage;

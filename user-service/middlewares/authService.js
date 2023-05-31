@@ -5,9 +5,7 @@ const jwt = require('jsonwebtoken')
 
 const authService = async () => {
     try {
-        const token = await consumeMessage("tokenGroup", "tokenData")
-        console.log(token)
-        await verifyUser(token)
+        await consumeMessage("tokenGroup", "tokenData", verifyUser)
     } catch (error) {
         console.log(error)
     }
@@ -16,18 +14,23 @@ authService();
 
 async function verifyUser(token) {
     try {
+        if (!token) return;
+        console.log(token)
         token = token.toString();
-        console.log(token, "kjd;flkjdf;gkljsdf;gkljsd;flkgjsdf;lgkjsd;gkljsd;flgkjs;dfgklj;");
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const user = await User.findOne({ _id: decoded._id })
+        user.status = false;
         if (!user) {
             throw new Error;
         }
         await sendMessage("userData", user)
+
         return true;
     } catch (error) {
-        console.log(error)
-        await sendMessage("userData", error)
+        const user = {}
+        user.error = error
+        user.status = false
+        await sendMessage("userData", user)
     }
 
 }

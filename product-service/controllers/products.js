@@ -23,7 +23,8 @@ const addToCart = async (req, res) => {
         product: product,
         quantity: Number(quantity)
     }
-    sendMessage("productData", data)
+    console.log(req.user, 'this is final data')
+    // sendMessage("productData", data)
     return res.status(200).json({ message: data })
 }
 
