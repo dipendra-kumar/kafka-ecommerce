@@ -24,9 +24,9 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use('/orders', proxy('http://localhost:4003'))
-app.use('/user', proxy("http://localhost:4002"));
-app.use('/', proxy("http://localhost:4001"));
+app.use('/orders', proxy('http://10.8.10.89:3003'))
+app.use('/users', proxy("http://10.8.10.95:4003"));
+app.use('/', proxy("http://10.8.10.102:2000"));
 
 
 // catch 404 and forward to error handler`

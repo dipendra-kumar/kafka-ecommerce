@@ -39,8 +39,8 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { emailAddress, password } = req.body
 
+    const { emailAddress, password } = req.body
     try {
         const user = await User.findOne({ emailAddress })
         if (!user) {
@@ -60,7 +60,6 @@ const login = async (req, res) => {
 }
 
 const changePassword = async (req, res) => {
-
     try {
         const user = await User.findOne(req.user._id)
         let { newPassword } = req.body
@@ -76,20 +75,8 @@ const changePassword = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
-
     try {
-        const user = req.user;
-        console.log(req.user)
-        await producer.send({
-            topic: 'userData',
-            messages: [
-                { value: JSON.stringify(user) },
-            ],
-        });
-        // Disconnect the producer once we’re done
-
-        await producer.disconnect();
-        return res.status(200).send("Sent sucessfully")
+        return res.status(200).json({ data: req.user })
 
     } catch (error) {
         console.log(error)
